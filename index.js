@@ -12,7 +12,6 @@ const generateBtn = document.querySelector(".generateBtn");
 const allCheckBox = document.querySelectorAll("input[type=checkbox");
 const symbols = '~`!@#$%^&*()_-+={[}]|:;"<,>.?/';
 
-// set password length and input slider background
 function handleSlider() {
   inputSlider.value = passwordLength;
   lengthDisplay.innerText = passwordLength;
@@ -34,14 +33,14 @@ uppercaseCheck.checked = true;
 setIndicator("#ccc");
 handleSlider();
 
-// handle input event on range slider
+
 inputSlider.addEventListener("input", (e) => {
   passwordLength = e.target.value;
-  // console.log("value", passwordLength);
+  
   handleSlider();
 });
 
-// handle check-count and password-length (password-length >= check-count)
+
 [...allCheckBox].forEach((checkbox) => {
   checkbox.addEventListener("change", () => {
     checkCount = 0;
@@ -55,39 +54,29 @@ inputSlider.addEventListener("input", (e) => {
   });
 });
 
-// genarate any random no. b/w min and max
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// generates any number b/w 0 - 9
 function generateRandomNumber() {
   return getRndInteger(0, 10);
 }
 
-// generates any lowercase digit b/w a - z
 function generateLowerCase() {
   return String.fromCharCode(getRndInteger(97, 123));
 }
 
-// generates any uppercase digit b/w A - Z
 function generateUpperCase() {
   return String.fromCharCode(getRndInteger(65, 91));
 }
 
-//generates any symbols
+
 function generateSymbol() {
   const symbolArr = Array.from(symbols);
   const randIndx = getRndInteger(0, symbolArr.length);
   return symbolArr[randIndx];
 }
 
-// console.log("Number: ", generateRandomNumber());
-// console.log("Lowercase: ", generateLowerCase());
-// console.log("Uppercase: ", generateUpperCase());
-// console.log("Symbols: ", generateSymbol());
-
-// Shuffle the array randomly - Fisher Yates Method
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -100,19 +89,16 @@ function shuffleArray(array) {
   return str;
 }
 
-// Handle generate password
 generateBtn.addEventListener("click", () => {
-  // none of the checkboxes are selected
+  
   if (checkCount <= 0) return;
-  // password-length should be >= selected no. of checkbox
+ 
   if (passwordLength < checkCount) {
     passwordLength = checkCount;
     handleSlider();
   }
-  // remove the previous password
   if (password.length) password = "";
 
-  // add selected checkbox functions to an array
   let funcArr = [];
   if (uppercaseCheck.checked) funcArr.push(generateUpperCase);
   if (lowercaseCheck.checked) funcArr.push(generateLowerCase);
@@ -131,9 +117,6 @@ generateBtn.addEventListener("click", () => {
   password = shuffleArray(Array.from(password));
   passwordDisplay.value = password;
   calcStrength();
-
-  // console.log("Password: ", password);
-  // console.log("Password Length: ", password.length);
 });
 
 async function copyContent() {
@@ -158,6 +141,7 @@ function calcStrength() {
   let hasLower = false;
   let hasNum = false;
   let hasSym = false;
+
   if (uppercaseCheck.checked) hasUpper = true;
   if (lowercaseCheck.checked) hasLower = true;
   if (numbersCheck.checked) hasNum = true;
@@ -170,6 +154,7 @@ function calcStrength() {
     (hasNum || hasSym) &&
     passwordLength >= 6
   ) {
+
     setIndicator("#ff0");
   } else {
     setIndicator("#f00");
